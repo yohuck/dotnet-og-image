@@ -22,7 +22,7 @@ namespace og_image
         [Function("OG_Image")]
         async public Task<HttpResponseData> Run([HttpTrigger(AuthorizationLevel.Anonymous, "get", "post")] HttpRequestData req)
         {
-            var input = "Hank";
+            var input = "World      ";
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
@@ -30,25 +30,40 @@ namespace og_image
 
             
 
-            string html = $@"<!DOCTYPE html>
+            string html = @$"<!DOCTYPE html>
 <html>
     <meta charset=""utf-8"">
     <title>Generated Image</title>
     <meta name=""viewport"" content=""width=device-width, initial-scale=1"">
     <style>
-        ${{getCss(theme, fontSize)}}
+      *{@"{
+box-sizing: border-box;
+margin: 0;
+padding: 0;
+}"}
+
+.container{@"{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 100vh;
+width: 100;
+background-color: pink;
+color: black;
+}"}
+
+
+
     </style>
-    <body><div> <h1>Hello {input}</h1><p>hshs</p></div></body></html>";
+    <body><div class='container'> <h1>Hello {input}</h1><p>This is dynamically generated.</p></div></body></html>";
 
 
             using var playwright = await Playwright.CreateAsync();
             await using var browser = await playwright.Chromium.LaunchAsync();
             var page = await browser.NewPageAsync();
-
-
-         //   await page.GotoAsync("https://playwright.dev/dotnet");
-
             await page.SetContentAsync(html);
+            await page.SetViewportSizeAsync(800, 200);
             var bytes = await page.ScreenshotAsync();
 
             var converted = Convert.ToBase64String(bytes);
