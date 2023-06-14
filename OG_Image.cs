@@ -26,7 +26,7 @@ namespace og_image
             _logger.LogInformation("C# HTTP trigger function processed a request.");
 
             var response = req.CreateResponse(HttpStatusCode.OK);
-         //   response.Headers.Add("Content-Type", "text/plain; charset=utf-8");
+  
 
             
 
@@ -64,14 +64,14 @@ color: black;
             var page = await browser.NewPageAsync();
             await page.SetContentAsync(html);
             await page.SetViewportSizeAsync(800, 200);
-            var bytes = await page.ScreenshotAsync();
-
-            var converted = Convert.ToBase64String(bytes);
+            var screenshot = await page.ScreenshotAsync();
 
          
             response.Headers.Add("Content-Type", $"image/png");
             response.Headers.Add("Cache-Control", "public, immutable, no-transform, s-maxage=31536000, max-age=31536000");
-            response.WriteBytes(bytes);
+            response.WriteBytes(screenshot);
+
+
             // response.statusCode = 200;
             //  res.setHeader('Content-Type', `image /${ fileType}`);
             //  res.setHeader('Cache-Control', `public, immutable, no-transform, s-maxage=31536000, max-age=31536000`);
