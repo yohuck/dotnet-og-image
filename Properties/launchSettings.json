@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "og_image": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7044"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "httpPort": 33789,
+      "useSSL": false
+    }
+  }
+}
